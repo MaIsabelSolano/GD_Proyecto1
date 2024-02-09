@@ -26,6 +26,17 @@ public class LVLManager : MonoBehaviour
     [SerializeField]
     GameObject listUI;
 
+    // Task 1
+    public bool task1 = false;
+    public bool task2 = false;
+    public bool task3 = false;
+    public bool task4 = false;
+    public bool task5 = false;
+    public bool task6 = false;
+    public bool Escritorio1 = false;
+    public bool Escritorio2 = false;
+    public bool Escritorio3 = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,5 +70,9 @@ public class LVLManager : MonoBehaviour
             }
         }
 
+        task1 = Escritorio1 & Escritorio2 & Escritorio3;
+
     }
+
+    void onTriggerEnter(Collision other) {}
 }
