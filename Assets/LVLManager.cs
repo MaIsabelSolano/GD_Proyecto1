@@ -10,32 +10,37 @@ public class LVLManager : MonoBehaviour
 {
     //propiedades
     // public Text tag_objeto;
-    [SerializeField]
-    Light luz;
+    [SerializeField] Light luz;
     // AudioSource linterna;
 
     // UI
     private bool pause;
-    [SerializeField]
-    int SpecialItemsFound = 0;
+    [SerializeField] int SpecialItemsFound = 0;
 
     public Text ItemsFoundDisplay;
+    //public Text SelectionTXT;
     
     // tareas
     private bool tareasOn;
-    [SerializeField]
-    GameObject listUI;
+    [SerializeField] GameObject listUI;
 
-    // Task 1
+    [SerializeField] SelectionMng selectionMng;
+
+    // Tasks ------------------------------------------------------
+    // task 1 -----------------------------------------------------
     public bool task1 = false;
+    public int c1 = 0;
+    [SerializeField] public Text task1_counter;
+    public bool T1_E6 = false;
+    public bool T1_E8 = false;
+
+    // task 2 -----------------------------------------------------
     public bool task2 = false;
     public bool task3 = false;
     public bool task4 = false;
     public bool task5 = false;
     public bool task6 = false;
-    public bool Escritorio1 = false;
-    public bool Escritorio2 = false;
-    public bool Escritorio3 = false;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +48,8 @@ public class LVLManager : MonoBehaviour
         // ItemsFoundDisplay = GetComponent<TextMesh>();
         pause = false;
         listUI.SetActive(false);
+        //SelectionTXT.text = "";
+        task1_counter.text = "0/2";
     }
 
     // Update is called once per frame
@@ -51,7 +58,7 @@ public class LVLManager : MonoBehaviour
         // función de la linterna
         if (Input.GetMouseButtonDown(0))
         {
-            luz.enabled = luz.enabled ? false : true;
+            luz.enabled = !luz.enabled;
             //linterna.Play();
         }
 
@@ -59,8 +66,7 @@ public class LVLManager : MonoBehaviour
         ItemsFoundDisplay.text = SpecialItemsFound + "/6";
 
         // tareas 
-        if (Input.GetKeyDown(KeyCode.T)) {
-            Debug.Log("ttt  ");
+        if (Input.GetKey(KeyCode.T)) {
             tareasOn = !tareasOn; // toggle 
 
             if (tareasOn) {
@@ -70,9 +76,8 @@ public class LVLManager : MonoBehaviour
             }
         }
 
-        task1 = Escritorio1 & Escritorio2 & Escritorio3;
 
     }
 
-    void onTriggerEnter(Collision other) {}
+
 }
