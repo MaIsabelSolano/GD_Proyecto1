@@ -29,7 +29,7 @@ public class LVLManager : MonoBehaviour
     // Tasks ------------------------------------------------------
     // task 1 -----------------------------------------------------
     public bool task1 = false;
-    public int c1 = 0;
+    public int c1;
     [SerializeField] public Text task1_counter;
     public bool T1_E6 = false;
     public bool T1_E8 = false;
@@ -46,9 +46,10 @@ public class LVLManager : MonoBehaviour
     void Start()
     {
         // ItemsFoundDisplay = GetComponent<TextMesh>();
-        pause = false;
+        // pause = false;
         listUI.SetActive(false);
         //SelectionTXT.text = "";
+        c1 = 0;
         task1_counter.text = "0/2";
     }
 
@@ -66,15 +67,15 @@ public class LVLManager : MonoBehaviour
         ItemsFoundDisplay.text = SpecialItemsFound + "/6";
 
         // tareas 
-        if (Input.GetKey(KeyCode.T)) {
-            tareasOn = !tareasOn; // toggle 
+        // if (Input.GetKey(KeyCode.T)) {
+        //     tareasOn = !tareasOn; // toggle 
 
-            if (tareasOn) {
-                listUI.SetActive(false);
-            } else {
-                listUI.SetActive(true);
-            }
-        }
+        //     if (tareasOn) {
+        //         listUI.SetActive(false);
+        //     } else {
+        //         listUI.SetActive(true);
+        //     }
+        // }
 
 
     }

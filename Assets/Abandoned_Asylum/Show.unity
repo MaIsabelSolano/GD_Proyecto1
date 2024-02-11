@@ -2019,7 +2019,6 @@ MonoBehaviour:
   luz: {fileID: 0}
   SpecialItemsFound: 0
   ItemsFoundDisplay: {fileID: 1831123992}
-  Selection: {fileID: 613259606}
   listUI: {fileID: 525200551}
   selectionMng: {fileID: 844625967}
   task1: 0
@@ -2314,8 +2313,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectableTag: Selectable
   cam: {fileID: 1140317555}
-  lVLManager: {fileID: 888207132}
-  hasSelection: 0
+  listUI: {fileID: 525200551}
+  SelectionTXT: {fileID: 613259606}
+  task1_counter: {fileID: 1721217022}
 --- !u!4 &844625968
 Transform:
   m_ObjectHideFlags: 0
@@ -2363,7 +2363,6 @@ MonoBehaviour:
   luz: {fileID: 1404880859}
   SpecialItemsFound: 0
   ItemsFoundDisplay: {fileID: 1831123992}
-  Selection: {fileID: 613259606}
   listUI: {fileID: 525200551}
   selectionMng: {fileID: 844625967}
   task1: 0
@@ -2678,7 +2677,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Colocar del sal\xF3n de clase en su lugar"
+  m_text: "Ordenar mesas del sal\xF3n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
