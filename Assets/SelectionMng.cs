@@ -24,12 +24,18 @@ public class SelectionMng : MonoBehaviour
   [SerializeField] Text task2_counter;
   private int c2;
 
+  // task 3 ---------------------
+  [SerializeField] Text task3_counter;
+  private int c3;
+  [SerializeField] GameObject shellFixed;
+
   // Start is called before the first frame update
   void Start()
   {
     SelectionTXT.text = "";   
     task1_counter.text = "0/2";
     task2_counter.text = "0/2";
+    task3_counter.text = "0/4";
   }
 
   // Update is called once per frame
@@ -90,6 +96,28 @@ public class SelectionMng : MonoBehaviour
             Debug.Log("F");
           }
         }
+
+        // task 3
+        else if (
+          selection.name.Equals("CupboardLight_Broken") || 
+          selection.name.Equals("CupboardLight_Broken (1)") ||
+          selection.name.Equals("CupboardLight_Broken (2)") ||
+          selection.name.Equals("CupboardLight_Broken (3)")
+        ) {
+          SelectionTXT.text = "[F] para arreglar";
+
+          if (Input.GetKey(KeyCode.F)) {
+            var pos = selection.position;
+            var rot= selection.rotation;
+
+            Destroy(selection.gameObject);
+            Instantiate(shellFixed, pos, rot);
+
+            CompleteTask(3);
+            // selection.tag = "Untagged";
+            Debug.Log("F");
+          }
+        }
       }
 
       else {
@@ -107,6 +135,9 @@ public class SelectionMng : MonoBehaviour
     } else if (taskNum == 2) {
       c2 += 1;
       task2_counter.text = c2.ToString() + "/2";
+    } else if (taskNum == 3) {
+      c3 += 1;
+      task3_counter.text = c3.ToString() + "/4";
     }
   }
 }
