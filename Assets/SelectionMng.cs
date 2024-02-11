@@ -29,6 +29,10 @@ public class SelectionMng : MonoBehaviour
   private int c3;
   [SerializeField] GameObject shellFixed;
 
+  // task 4 ---------------------
+  [SerializeField] Text task4_counter;
+  private int c4;
+
   // Start is called before the first frame update
   void Start()
   {
@@ -36,6 +40,7 @@ public class SelectionMng : MonoBehaviour
     task1_counter.text = "0/2";
     task2_counter.text = "0/2";
     task3_counter.text = "0/4";
+    task4_counter.text = "0/1";
   }
 
   // Update is called once per frame
@@ -118,6 +123,19 @@ public class SelectionMng : MonoBehaviour
             Debug.Log("F");
           }
         }
+
+        // task 4
+        else if (selection.name.Equals("BigShelf_Stock (2)")) {
+          SelectionTXT.text = "[F] para levantar";
+
+          if (Input.GetKey(KeyCode.F)) {
+            selection.transform.rotation = Quaternion.Euler(0.0f, 90.0f, 0.0f);
+
+            CompleteTask(2);
+            selection.tag = "Untagged";
+            Debug.Log("F");
+          }
+        }
       }
 
       else {
@@ -135,9 +153,15 @@ public class SelectionMng : MonoBehaviour
     } else if (taskNum == 2) {
       c2 += 1;
       task2_counter.text = c2.ToString() + "/2";
+      if (c2 <= 2) {}
     } else if (taskNum == 3) {
       c3 += 1;
       task3_counter.text = c3.ToString() + "/4";
+      if (c3 <= 4) {}
+    } else if (taskNum == 4) {
+      c4 += 1;
+      task4_counter.text = c4.ToString() + "/1";
+      if (c4 <= 1) {}
     }
   }
 }
