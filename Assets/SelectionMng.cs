@@ -33,6 +33,10 @@ public class SelectionMng : MonoBehaviour
   [SerializeField] Text task4_counter;
   private int c4;
 
+  // task 5 ---------------------
+  [SerializeField] Text task5_counter;
+  private int c5;
+
   // Start is called before the first frame update
   void Start()
   {
@@ -41,6 +45,7 @@ public class SelectionMng : MonoBehaviour
     task2_counter.text = "0/2";
     task3_counter.text = "0/4";
     task4_counter.text = "0/1";
+    task5_counter.text = "0/4";
   }
 
   // Update is called once per frame
@@ -131,7 +136,50 @@ public class SelectionMng : MonoBehaviour
           if (Input.GetKey(KeyCode.F)) {
             selection.transform.rotation = Quaternion.Euler(0.0f, 90.0f, 0.0f);
 
-            CompleteTask(2);
+            CompleteTask(4);
+            selection.tag = "Untagged";
+            Debug.Log("F");
+          }
+        }
+
+        // task 5
+        else if (selection.name.Equals("Sink (3)")) {
+          SelectionTXT.text = "[F] para levantar";
+
+          if (Input.GetKey(KeyCode.F)) {
+            selection.transform.rotation = Quaternion.Euler(0.0f, -90.01f, 0.0f);
+
+            CompleteTask(5);
+            selection.tag = "Untagged";
+            Debug.Log("F");
+          }
+        } else if (selection.name.Equals("Sink (5)")) {
+          SelectionTXT.text = "[F] para levantar";
+
+          if (Input.GetKey(KeyCode.F)) {
+            selection.transform.rotation = Quaternion.Euler(0.0f, -90.01f, 0.0f);
+
+            CompleteTask(5);
+            selection.tag = "Untagged";
+            Debug.Log("F");
+          }
+        } else if (selection.name.Equals("Sink (6)")) {
+          SelectionTXT.text = "[F] para levantar";
+
+          if (Input.GetKey(KeyCode.F)) {
+            selection.transform.rotation = Quaternion.Euler(0.0f, -90.01f, 0.0f);
+
+            CompleteTask(5);
+            selection.tag = "Untagged";
+            Debug.Log("F");
+          }
+        } else if (selection.name.Equals("Sink (11)")) {
+          SelectionTXT.text = "[F] para levantar";
+
+          if (Input.GetKey(KeyCode.F)) {
+            selection.transform.rotation = Quaternion.Euler(0.0f, -90.01f, 0.0f);
+
+            CompleteTask(5);
             selection.tag = "Untagged";
             Debug.Log("F");
           }
@@ -162,6 +210,10 @@ public class SelectionMng : MonoBehaviour
       c4 += 1;
       task4_counter.text = c4.ToString() + "/1";
       if (c4 <= 1) {}
+    } else if (taskNum == 5) {
+      c5 += 1;
+      task5_counter.text = c5.ToString() + "/4";
+      if (c5 <= 1) {}
     }
   }
 }
