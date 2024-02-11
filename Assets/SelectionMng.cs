@@ -17,14 +17,19 @@ public class SelectionMng : MonoBehaviour
 
   // tasks -------------------------------------------------------------------------
   // task 1 ---------------------
-  [SerializeField] public Text task1_counter;
+  [SerializeField] Text task1_counter;
   private int c1;
+
+  // task 2 ---------------------
+  [SerializeField] Text task2_counter;
+  private int c2;
 
   // Start is called before the first frame update
   void Start()
   {
     SelectionTXT.text = "";   
     task1_counter.text = "0/2";
+    task2_counter.text = "0/2";
   }
 
   // Update is called once per frame
@@ -51,11 +56,8 @@ public class SelectionMng : MonoBehaviour
 
             CompleteTask(1);
             selection.tag = "Untagged";
-            Debug.Log("F");
           }
-        }
-
-        if (selection.name.Equals("TableSchool (8)")) {
+        } else if (selection.name.Equals("TableSchool (8)")) {
           SelectionTXT.text = "[F] para arreglar";
 
           if (Input.GetKey(KeyCode.F)) {
@@ -63,11 +65,33 @@ public class SelectionMng : MonoBehaviour
 
             CompleteTask(1);
             selection.tag = "Untagged";
-            Debug.Log("F");
           }
         }
 
+        // task 2
+        else if (selection.name.Equals("Fridge_DoorD")) {
+          SelectionTXT.text = "[F] para cerrar";
+
+          if (Input.GetKey(KeyCode.F)) {
+            selection.transform.rotation = Quaternion.Euler(0.0f, 90.0f, 0.0f);
+
+            CompleteTask(2);
+            selection.tag = "Untagged";
+            Debug.Log("F");
+          }
+        } else if (selection.name.Equals("Fridge_DoorH")) {
+          SelectionTXT.text = "[F] para cerrar";
+
+          if (Input.GetKey(KeyCode.F)) {
+            selection.transform.rotation = Quaternion.Euler(0.0f, -180.0f, 0.0f);
+
+            CompleteTask(2);
+            selection.tag = "Untagged";
+            Debug.Log("F");
+          }
+        }
       }
+
       else {
         SelectionTXT.text = "";
         selection = null;
@@ -79,8 +103,10 @@ public class SelectionMng : MonoBehaviour
     if (taskNum == 1) {
       c1 += 1;
       task1_counter.text = c1.ToString() + "/2";
-
       if (c1 <= 2) {}
+    } else if (taskNum == 2) {
+      c2 += 1;
+      task2_counter.text = c2.ToString() + "/2";
     }
   }
 }
