@@ -14,7 +14,10 @@ public class SelectionMng : MonoBehaviour
   [SerializeField] GameObject listUI;
 
   public Text SelectionTXT;
-
+  //PickedObject
+  private GameObject PickedObject = null;
+  //Hand
+  public GameObject handPoint;
   // tasks -------------------------------------------------------------------------
   // task 1 ---------------------
   [SerializeField] Text task1_counter;
@@ -51,6 +54,7 @@ public class SelectionMng : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
+
     // listado de tareas
     if (Input.GetKeyDown(KeyCode.T)) {
       listUI.SetActive(!listUI.active);
@@ -60,6 +64,39 @@ public class SelectionMng : MonoBehaviour
     RaycastHit hit;
     if (Physics.Raycast(ray, out hit)) {
       var selection = hit.transform;
+
+      //Debug.Log("Soy el test: ", selection);
+
+      if(selection.CompareTag("paper") || selection.CompareTag("plunger") || selection.CompareTag("brush") || selection.CompareTag("gloves") || selection.CompareTag("atomizer")  || selection.CompareTag("rags") ){
+        //Debug.Log("Detecto papel");
+        if(selection.name.Equals("tp_roll_01") || selection.name.Equals("mango") || selection.name.Equals("brush") || selection.name.Equals("gloves") || selection.name.Equals("atomizer") || selection.name.Equals("rags")){
+          //Debug.Log("Detecte el nombre");
+          SelectionTXT.text = "[E] para tomar objeto";
+          if(Input.GetKey(KeyCode.E) && PickedObject == null){
+            if (selection.name.Equals("gloves")){
+            //Debug.Log("Presione E");
+            // Lógica para agarrar el objeto
+            PickedObject = selection.gameObject;
+            PickedObject.transform.position = handPoint.transform.position;
+            PickedObject.GetComponent<Rigidbody>().isKinematic = true;
+            PickedObject.transform.localRotation = Quaternion.Euler(90, 0, 0);
+            PickedObject.GetComponent<Rigidbody>().useGravity = false;
+            PickedObject.transform.SetParent(handPoint.transform);
+            }
+            //Debug.Log("Presione E");
+            // Lógica para agarrar el objeto
+            PickedObject = selection.gameObject;
+            PickedObject.transform.position = handPoint.transform.position;
+            PickedObject.GetComponent<Rigidbody>().isKinematic = true;
+            PickedObject.GetComponent<Rigidbody>().useGravity = false;
+            PickedObject.transform.localRotation = Quaternion.Euler(0, 90, 0);
+            PickedObject.transform.SetParent(handPoint.transform);
+          }
+
+        }
+        
+
+      }
 
       if (selection.CompareTag(selectableTag)) 
       {
@@ -191,6 +228,16 @@ public class SelectionMng : MonoBehaviour
         selection = null;
       }
     }
+
+    if (PickedObject!=null){
+      if(Input.GetKey("r")){
+        PickedObject.GetComponent<Rigidbody>().useGravity = true;
+        PickedObject.GetComponent<Rigidbody>().isKinematic = false;
+        PickedObject.gameObject.transform.SetParent(null);
+        PickedObject = null;
+        }
+    }
+
   }
 
   void CompleteTask(int taskNum){

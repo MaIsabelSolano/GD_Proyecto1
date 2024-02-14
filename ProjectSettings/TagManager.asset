@@ -6,6 +6,13 @@ TagManager:
   tags:
   - Door
   - Selectable
+  - hand
+  - paper
+  - plunger
+  - brush
+  - gloves
+  - atomizer
+  - rags
   layers:
   - Default
   - TransparentFX
