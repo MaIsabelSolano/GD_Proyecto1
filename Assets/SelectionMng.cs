@@ -43,12 +43,14 @@ public class SelectionMng : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-    SelectionTXT.text = "";   
+    SelectionTXT.text = "+";   
     task1_counter.text = "0/2";
     task2_counter.text = "0/2";
     task3_counter.text = "0/4";
     task4_counter.text = "0/1";
     task5_counter.text = "0/4";
+
+    listUI.SetActive(false);
   }
 
   // Update is called once per frame
@@ -94,11 +96,10 @@ public class SelectionMng : MonoBehaviour
           }
 
         }
-        
 
       }
 
-      if (selection.CompareTag(selectableTag)) 
+      else if (selection.CompareTag(selectableTag)) 
       {
         // task 1 ------------------------------------------------------------------------------
         if (selection.name.Equals("TableSchool (6)")) {
@@ -224,7 +225,7 @@ public class SelectionMng : MonoBehaviour
       }
 
       else {
-        SelectionTXT.text = "";
+        SelectionTXT.text = "+";
         selection = null;
       }
     }
