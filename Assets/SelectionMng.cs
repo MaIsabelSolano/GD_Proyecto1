@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Threading.Tasks;
 
 public class SelectionMng : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class SelectionMng : MonoBehaviour
   //Hand
   public GameObject handPoint;
   // tasks -------------------------------------------------------------------------
+  public int task_counter;
   // task 1 ---------------------
   [SerializeField] Text task1_counter;
   private int c1;
@@ -40,6 +42,9 @@ public class SelectionMng : MonoBehaviour
   [SerializeField] Text task5_counter;
   private int c5;
 
+  [SerializeField] GameObject finishline;
+  LVLManager lVLManager;
+
   // Start is called before the first frame update
   void Start()
   {
@@ -51,6 +56,11 @@ public class SelectionMng : MonoBehaviour
     task5_counter.text = "0/4";
 
     listUI.SetActive(false);
+
+    task_counter = 0;
+
+    lVLManager = finishline.GetComponent<LVLManager>();
+    
   }
 
   // Update is called once per frame
@@ -239,29 +249,33 @@ public class SelectionMng : MonoBehaviour
         }
     }
 
+    if (task_counter == 13) {
+      lVLManager.endGame = true;
+    }
+
   }
 
   void CompleteTask(int taskNum){
     if (taskNum == 1) {
       c1 += 1;
       task1_counter.text = c1.ToString() + "/2";
-      if (c1 <= 2) {}
+      task_counter += 1;
     } else if (taskNum == 2) {
       c2 += 1;
       task2_counter.text = c2.ToString() + "/2";
-      if (c2 <= 2) {}
+      task_counter += 1;
     } else if (taskNum == 3) {
       c3 += 1;
       task3_counter.text = c3.ToString() + "/4";
-      if (c3 <= 4) {}
+      task_counter += 1;
     } else if (taskNum == 4) {
       c4 += 1;
       task4_counter.text = c4.ToString() + "/1";
-      if (c4 <= 1) {}
+      task_counter += 1;
     } else if (taskNum == 5) {
       c5 += 1;
       task5_counter.text = c5.ToString() + "/4";
-      if (c5 <= 1) {}
+      task_counter += 1;
     }
   }
 }
