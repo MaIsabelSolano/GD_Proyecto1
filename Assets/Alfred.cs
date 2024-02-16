@@ -27,6 +27,8 @@ public class Alfred : MonoBehaviour
             // game over
             jumpscare.SetActive(true);
             Time.timeScale = 0;
+            AudioListener.pause = true;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 }

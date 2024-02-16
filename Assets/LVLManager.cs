@@ -31,6 +31,8 @@ public class LVLManager : MonoBehaviour
 	{
 		pauseMenu.SetActive(false);
 		pause = false;
+		AudioListener.pause = false;
+		Time.timeScale = 1;
 
 	}
 
@@ -76,6 +78,11 @@ public class LVLManager : MonoBehaviour
 			// You can add logic here to end the game, such as displaying a victory screen or returning to the main menu
 			// SceneManager.LoadScene("VictoryScene"); // Load a victory scene, for example
 		}
+	}
+
+	public void RepeatLevel()
+	{
+		SceneManager.LoadScene(0);
 	}
 
 }
