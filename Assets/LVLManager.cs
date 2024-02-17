@@ -88,7 +88,11 @@ public class LVLManager : MonoBehaviour
 
 	public void RepeatLevel()
 	{
-		SceneManager.LoadScene(0);
+		SceneManager.LoadScene(1);
 	}
 
+	public void QuitGame() 
+    {
+		SceneManager.LoadScene(0);
+	}
 }
