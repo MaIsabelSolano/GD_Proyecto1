@@ -13,6 +13,7 @@ TagManager:
   - gloves
   - atomizer
   - rags
+  - ritual_space
   layers:
   - Default
   - TransparentFX

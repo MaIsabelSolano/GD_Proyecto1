@@ -10,22 +10,26 @@ public class sceenchange : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.None;
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public void QuitGame() 
-    {
-		Application.Quit();
-	}
-
     public void StartGame()
-	{
-		SceneManager.LoadScene(1);
-	}
+    {
+        SceneManager.LoadScene(1);
+    }
+    //Ir al menú
+    public void GoMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }

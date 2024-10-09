@@ -19,7 +19,7 @@ public class LVLManager : MonoBehaviour
 	// Fin del juego 
 	// [SerializeField] GameObject meta;
 	public bool endGame = false;
-	
+
 	private float previousTimeScale;
 
 	[SerializeField] GameObject pauseMenu;
@@ -33,6 +33,7 @@ public class LVLManager : MonoBehaviour
 		pause = false;
 		AudioListener.pause = false;
 		Time.timeScale = 1;
+		previousTimeScale = Time.timeScale;
 		endGameScreen.SetActive(false);
 
 	}
@@ -44,22 +45,25 @@ public class LVLManager : MonoBehaviour
 		if (Input.GetMouseButtonDown(0) && !pause && !endGame)
 		{
 			luz.enabled = !luz.enabled;
-			
+
 			//linterna.Play();
 		}
 
 		// Display del texto 
 		ItemsFoundDisplay.text = SpecialItemsFound + "/6";
-		
-		if (Input.GetKeyDown(KeyCode.Escape) && !endGame){
-			if (Time.timeScale == 0) {
+
+		if (Input.GetKeyDown(KeyCode.Escape) && !endGame)
+		{
+			if (Time.timeScale == 0)
+			{
 				Time.timeScale = previousTimeScale;
 				pauseMenu.SetActive(false);
 				pause = false;
 				AudioListener.pause = false;
 				Cursor.lockState = CursorLockMode.Locked;
-				}
-			else {
+			}
+			else
+			{
 				previousTimeScale = Time.timeScale;
 				Time.timeScale = 0;
 				pauseMenu.SetActive(true);
@@ -67,9 +71,7 @@ public class LVLManager : MonoBehaviour
 				AudioListener.pause = true;
 				Cursor.lockState = CursorLockMode.None;
 			}
-			
 		}
-
 	}
 
 	private void OnTriggerEnter(Collider other)
@@ -91,8 +93,39 @@ public class LVLManager : MonoBehaviour
 		SceneManager.LoadScene(1);
 	}
 
-	public void QuitGame() 
-    {
+	public void ReturnToMenu()
+	{
 		SceneManager.LoadScene(0);
 	}
+
+	public void ResumeGame()
+	{
+		Debug.Log("ResumeGame() fue llamado.");
+		Time.timeScale = 1;
+		Debug.Log("Time.timeScale después de reanudar: " + Time.timeScale);
+		pauseMenu.SetActive(false);
+		pause = false;
+		AudioListener.pause = false;
+		Cursor.lockState = CursorLockMode.Locked;
+	}
+
+	public void IncrementSpecialItemsFound()
+	{
+		Debug.Log("IncrementSpecialItemsFound() fue llamado.");
+		SpecialItemsFound++;
+		Debug.Log("SpecialItemsFound: " + SpecialItemsFound);
+		ItemsFoundDisplay.text = SpecialItemsFound + "/6";
+
+		if (SpecialItemsFound == 6)
+		{
+            ShowVictoryScene();
+        }
+	}
+
+	private void ShowVictoryScene()
+    {
+        SceneManager.LoadScene("VictoryScene");
+        Debug.Log("¡Has colocado los 6 objetos! ¡Victoria!");
+    }
+
 }

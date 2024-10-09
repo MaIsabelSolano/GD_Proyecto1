@@ -45,10 +45,15 @@ public class SelectionMng : MonoBehaviour
   [SerializeField] GameObject finishline;
   LVLManager lVLManager;
 
+  private HashSet<string> collectedItems = new HashSet<string>();
+
+  public Transform[] ritualPositions; // Array de posiciones predefinidas en la zona de ritual
+  private int currentRitualPositionIndex = 0; // Índice para la siguiente posición libre
+
   // Start is called before the first frame update
   void Start()
   {
-    SelectionTXT.text = "+";   
+    SelectionTXT.text = "+";
     task1_counter.text = "0/2";
     task2_counter.text = "0/2";
     task3_counter.text = "0/4";
@@ -60,40 +65,46 @@ public class SelectionMng : MonoBehaviour
     task_counter = 0;
 
     lVLManager = finishline.GetComponent<LVLManager>();
-    
   }
+
 
   // Update is called once per frame
   void Update()
   {
 
     // listado de tareas
-    if (Input.GetKeyDown(KeyCode.T)) {
+    if (Input.GetKeyDown(KeyCode.T))
+    {
       listUI.SetActive(!listUI.active);
     }
 
     var ray = cam.ScreenPointToRay(Input.mousePosition);
     RaycastHit hit;
-    if (Physics.Raycast(ray, out hit)) {
+    if (Physics.Raycast(ray, out hit))
+    {
       var selection = hit.transform;
 
       //Debug.Log("Soy el test: ", selection);
 
-      if(selection.CompareTag("paper") || selection.CompareTag("plunger") || selection.CompareTag("brush") || selection.CompareTag("gloves") || selection.CompareTag("atomizer")  || selection.CompareTag("rags") ){
+      if (selection.CompareTag("paper") || selection.CompareTag("plunger") || selection.CompareTag("brush") || selection.CompareTag("gloves") || selection.CompareTag("atomizer") || selection.CompareTag("rags"))
+      {
         //Debug.Log("Detecto papel");
-        if(selection.name.Equals("tp_roll_01") || selection.name.Equals("mango") || selection.name.Equals("brush") || selection.name.Equals("gloves") || selection.name.Equals("atomizer") || selection.name.Equals("rags")){
+        if (selection.name.Equals("tp_roll_01") || selection.name.Equals("destapador") || selection.name.Equals("brush") || selection.name.Equals("gloves") || selection.name.Equals("atomizer") || selection.name.Equals("rags"))
+        {
           //Debug.Log("Detecte el nombre");
           SelectionTXT.text = "[E] para tomar objeto";
-          if(Input.GetKey(KeyCode.E) && PickedObject == null){
-            if (selection.name.Equals("gloves")){
-            //Debug.Log("Presione E");
-            // Lógica para agarrar el objeto
-            PickedObject = selection.gameObject;
-            PickedObject.transform.position = handPoint.transform.position;
-            PickedObject.GetComponent<Rigidbody>().isKinematic = true;
-            PickedObject.transform.localRotation = Quaternion.Euler(90, 0, 0);
-            PickedObject.GetComponent<Rigidbody>().useGravity = false;
-            PickedObject.transform.SetParent(handPoint.transform);
+          if (Input.GetKey(KeyCode.E) && PickedObject == null)
+          {
+            if (selection.name.Equals("gloves"))
+            {
+              //Debug.Log("Presione E");
+              // Lógica para agarrar el objeto
+              PickedObject = selection.gameObject;
+              PickedObject.transform.position = handPoint.transform.position;
+              PickedObject.GetComponent<Rigidbody>().isKinematic = true;
+              PickedObject.transform.localRotation = Quaternion.Euler(90, 0, 0);
+              PickedObject.GetComponent<Rigidbody>().useGravity = false;
+              PickedObject.transform.SetParent(handPoint.transform);
             }
             //Debug.Log("Presione E");
             // Lógica para agarrar el objeto
@@ -105,26 +116,69 @@ public class SelectionMng : MonoBehaviour
             PickedObject.transform.SetParent(handPoint.transform);
           }
 
+
+          collectedItems.Add(selection.name);
+
         }
 
       }
+      else if (selection.CompareTag("ritual_space"))
+      {
+        Debug.Log("Detecto ritual");
+        SelectionTXT.text = "[R] para colocar objeto";
+        if (Input.GetKey(KeyCode.R) && PickedObject != null)
+        {
+          Debug.Log("Presione R");
+          if (currentRitualPositionIndex < ritualPositions.Length)
+          {
+            Transform ritualPosition = ritualPositions[currentRitualPositionIndex];
+            PickedObject.transform.position = ritualPosition.position;
+            PickedObject.transform.rotation = ritualPosition.rotation;
+            currentRitualPositionIndex++;
+          }
+          else
+          {
+            Debug.LogWarning("No hay más posiciones libres en la zona de ritual");
+            return;
+          }
 
-      else if (selection.CompareTag(selectableTag)) 
+          PickedObject.GetComponent<Rigidbody>().isKinematic = true;
+          PickedObject.GetComponent<Rigidbody>().useGravity = false;
+          PickedObject.transform.SetParent(null);
+
+          if (!collectedItems.Contains(selection.name))
+          {
+            // Incrementar el contador de objetos colocados
+            lVLManager.IncrementSpecialItemsFound();
+          }
+
+          // Limpiar el objeto recogido
+          PickedObject = null;
+
+        }
+      }
+
+      else if (selection.CompareTag(selectableTag))
       {
         // task 1 ------------------------------------------------------------------------------
-        if (selection.name.Equals("TableSchool (6)")) {
+        if (selection.name.Equals("TableSchool (6)"))
+        {
           SelectionTXT.text = "[F] para arreglar";
 
-          if (Input.GetKey(KeyCode.F)) {
+          if (Input.GetKey(KeyCode.F))
+          {
             selection.transform.SetPositionAndRotation(new Vector3(23.667f, 3.826f, 5.133f), Quaternion.Euler(-180.0f, -87.3f, -180.0f));
 
             CompleteTask(1);
             selection.tag = "Untagged";
           }
-        } else if (selection.name.Equals("TableSchool (8)")) {
+        }
+        else if (selection.name.Equals("TableSchool (8)"))
+        {
           SelectionTXT.text = "[F] para arreglar";
 
-          if (Input.GetKey(KeyCode.F)) {
+          if (Input.GetKey(KeyCode.F))
+          {
             selection.transform.SetPositionAndRotation(new Vector3(25.77f, 3.813902f, 3.23f), Quaternion.Euler(0.0f, -90.0f, 0.0f));
 
             CompleteTask(1);
@@ -133,20 +187,25 @@ public class SelectionMng : MonoBehaviour
         }
 
         // task 2
-        else if (selection.name.Equals("Fridge_DoorD")) {
+        else if (selection.name.Equals("Fridge_DoorD"))
+        {
           SelectionTXT.text = "[F] para cerrar";
 
-          if (Input.GetKey(KeyCode.F)) {
+          if (Input.GetKey(KeyCode.F))
+          {
             selection.transform.rotation = Quaternion.Euler(0.0f, 90.0f, 0.0f);
 
             CompleteTask(2);
             selection.tag = "Untagged";
             Debug.Log("F");
           }
-        } else if (selection.name.Equals("Fridge_DoorH")) {
+        }
+        else if (selection.name.Equals("Fridge_DoorH"))
+        {
           SelectionTXT.text = "[F] para cerrar";
 
-          if (Input.GetKey(KeyCode.F)) {
+          if (Input.GetKey(KeyCode.F))
+          {
             selection.transform.rotation = Quaternion.Euler(0.0f, -180.0f, 0.0f);
 
             CompleteTask(2);
@@ -157,16 +216,18 @@ public class SelectionMng : MonoBehaviour
 
         // task 3
         else if (
-          selection.name.Equals("CupboardLight_Broken") || 
+          selection.name.Equals("CupboardLight_Broken") ||
           selection.name.Equals("CupboardLight_Broken (1)") ||
           selection.name.Equals("CupboardLight_Broken (2)") ||
           selection.name.Equals("CupboardLight_Broken (3)")
-        ) {
+        )
+        {
           SelectionTXT.text = "[F] para arreglar";
 
-          if (Input.GetKey(KeyCode.F)) {
+          if (Input.GetKey(KeyCode.F))
+          {
             var pos = selection.position;
-            var rot= selection.rotation;
+            var rot = selection.rotation;
 
             Destroy(selection.gameObject);
             Instantiate(shellFixed, pos, rot);
@@ -178,10 +239,12 @@ public class SelectionMng : MonoBehaviour
         }
 
         // task 4
-        else if (selection.name.Equals("BigShelf_Stock (2)")) {
+        else if (selection.name.Equals("BigShelf_Stock (2)"))
+        {
           SelectionTXT.text = "[F] para levantar";
 
-          if (Input.GetKey(KeyCode.F)) {
+          if (Input.GetKey(KeyCode.F))
+          {
             selection.transform.rotation = Quaternion.Euler(0.0f, 90.0f, 0.0f);
 
             CompleteTask(4);
@@ -191,40 +254,51 @@ public class SelectionMng : MonoBehaviour
         }
 
         // task 5
-        else if (selection.name.Equals("Sink (3)")) {
+        else if (selection.name.Equals("Sink (3)"))
+        {
           SelectionTXT.text = "[F] para levantar";
 
-          if (Input.GetKey(KeyCode.F)) {
+          if (Input.GetKey(KeyCode.F))
+          {
             selection.transform.rotation = Quaternion.Euler(0.0f, -90.01f, 0.0f);
 
             CompleteTask(5);
             selection.tag = "Untagged";
             Debug.Log("F");
           }
-        } else if (selection.name.Equals("Sink (5)")) {
+        }
+        else if (selection.name.Equals("Sink (5)"))
+        {
           SelectionTXT.text = "[F] para levantar";
 
-          if (Input.GetKey(KeyCode.F)) {
+          if (Input.GetKey(KeyCode.F))
+          {
             selection.transform.rotation = Quaternion.Euler(0.0f, -90.01f, 0.0f);
 
             CompleteTask(5);
             selection.tag = "Untagged";
             Debug.Log("F");
           }
-        } else if (selection.name.Equals("Sink (6)")) {
+        }
+        else if (selection.name.Equals("Sink (6)"))
+        {
           SelectionTXT.text = "[F] para levantar";
 
-          if (Input.GetKey(KeyCode.F)) {
+          if (Input.GetKey(KeyCode.F))
+          {
             selection.transform.rotation = Quaternion.Euler(0.0f, -90.01f, 0.0f);
 
             CompleteTask(5);
             selection.tag = "Untagged";
             Debug.Log("F");
           }
-        } else if (selection.name.Equals("Sink (11)")) {
+        }
+        else if (selection.name.Equals("Sink (11)"))
+        {
           SelectionTXT.text = "[F] para levantar";
 
-          if (Input.GetKey(KeyCode.F)) {
+          if (Input.GetKey(KeyCode.F))
+          {
             selection.transform.rotation = Quaternion.Euler(0.0f, -90.01f, 0.0f);
 
             CompleteTask(5);
@@ -234,48 +308,68 @@ public class SelectionMng : MonoBehaviour
         }
       }
 
-      else {
+      else
+      {
         SelectionTXT.text = "+";
         selection = null;
       }
     }
 
-    if (PickedObject!=null){
-      if(Input.GetKey("r")){
+    if (PickedObject != null)
+    {
+      if (Input.GetKey("r"))
+      {
         PickedObject.GetComponent<Rigidbody>().useGravity = true;
         PickedObject.GetComponent<Rigidbody>().isKinematic = false;
         PickedObject.gameObject.transform.SetParent(null);
         PickedObject = null;
-        }
+      }
     }
 
-    if (task_counter == 13) {
+    if (task_counter == 13)
+    {
       lVLManager.endGame = true;
     }
 
   }
 
-  void CompleteTask(int taskNum){
-    if (taskNum == 1) {
+  void CompleteTask(int taskNum)
+  {
+    if (taskNum == 1)
+    {
       c1 += 1;
       task1_counter.text = c1.ToString() + "/2";
       task_counter += 1;
-    } else if (taskNum == 2) {
+    }
+    else if (taskNum == 2)
+    {
       c2 += 1;
       task2_counter.text = c2.ToString() + "/2";
       task_counter += 1;
-    } else if (taskNum == 3) {
+    }
+    else if (taskNum == 3)
+    {
       c3 += 1;
       task3_counter.text = c3.ToString() + "/4";
       task_counter += 1;
-    } else if (taskNum == 4) {
+    }
+    else if (taskNum == 4)
+    {
       c4 += 1;
       task4_counter.text = c4.ToString() + "/1";
       task_counter += 1;
-    } else if (taskNum == 5) {
+    }
+    else if (taskNum == 5)
+    {
       c5 += 1;
       task5_counter.text = c5.ToString() + "/4";
       task_counter += 1;
+    }
+
+    //Si ya están completas, mostrar la escena VictoryScene
+    if (task_counter == 13)
+    {
+      SceneManager.LoadScene("VictoryScene");
     }
   }
 }
