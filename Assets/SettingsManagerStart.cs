@@ -10,10 +10,10 @@ public class SettingsManagerStart : MonoBehaviour
 
     private void Start()
     {
-        // Cargar configuraciones guardadas
-        volumeSlider.value = PlayerPrefs.GetFloat("Volume", AudioListener.volume);
-        brightnessSlider.value = PlayerPrefs.GetFloat("Brightness", 1f);
-        qualitySlider.value = PlayerPrefs.GetInt("Quality", QualitySettings.GetQualityLevel());
+        // Configurar los sliders con valores del GameSettings
+        volumeSlider.value = GameSettings.Instance.Volume;
+        brightnessSlider.value = GameSettings.Instance.Brightness;
+        qualitySlider.value = GameSettings.Instance.Quality;
 
         // Configurar el valor máximo del slider de calidad
         qualitySlider.maxValue = QualitySettings.names.Length - 1;
@@ -24,36 +24,14 @@ public class SettingsManagerStart : MonoBehaviour
         settingsPanel.SetActive(!settingsPanel.activeSelf);
     }
 
-    // Aplicar y guardar configuraciones cuando se hace clic en "Regresar"
     public void ApplySettings()
     {
-        // Aplicar los valores de los sliders
-        SetVolume(volumeSlider.value);
-        SetBrightness(brightnessSlider.value);
-        SetQuality(qualitySlider.value);
-
-        // Guardar los valores en PlayerPrefs
-        PlayerPrefs.SetFloat("Volume", volumeSlider.value);
-        PlayerPrefs.SetFloat("Brightness", brightnessSlider.value);
-        PlayerPrefs.SetInt("Quality", (int)qualitySlider.value);
-        PlayerPrefs.Save();
+        // Aplicar valores usando GameSettings
+        GameSettings.Instance.SetVolume(volumeSlider.value);
+        GameSettings.Instance.SetBrightness(brightnessSlider.value);
+        GameSettings.Instance.SetQuality((int)qualitySlider.value);
 
         // Cerrar el panel de configuraciones
         settingsPanel.SetActive(false);
-    }
-
-    private void SetVolume(float volume)
-    {
-        AudioListener.volume = volume;
-    }
-
-    private void SetBrightness(float brightness)
-    {
-        RenderSettings.ambientLight = Color.white * brightness;
-    }
-
-    private void SetQuality(float qualityIndex)
-    {
-        QualitySettings.SetQualityLevel((int)qualityIndex);
     }
 }

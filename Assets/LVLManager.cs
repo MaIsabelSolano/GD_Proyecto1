@@ -118,14 +118,14 @@ public class LVLManager : MonoBehaviour
 
 		if (SpecialItemsFound == 6)
 		{
-            ShowVictoryScene();
-        }
+			ShowVictoryScene();
+		}
 	}
 
 	private void ShowVictoryScene()
-    {
-        SceneManager.LoadScene("VictoryScene");
-        Debug.Log("¡Has colocado los 6 objetos! ¡Victoria!");
-    }
+	{
+		SceneManager.LoadScene("VictoryScene");
+		Debug.Log("¡Has colocado los 6 objetos! ¡Victoria!");
+	}
 
 }
